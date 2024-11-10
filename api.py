@@ -16,3 +16,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+model_id = "CompVis/stable-diffusion-v1-4"
+pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float32, use_auth_token=auth_token, safety_checker=None, requires_safety_checker=False)
+
+@app.get("/")
+def generate(prompt: str):
+    image = pipe(prompt, guidance_scale=8.5, height=256, width=256).images[0]
+
+    image.save("testimage.png")
+
+    return {"out":"hello world"}

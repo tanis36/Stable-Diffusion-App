@@ -1,1 +1,1 @@
-auth_token = "YOUR TOKEN HERE"
+auth_token = "AUTH TOKEN"
