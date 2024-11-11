@@ -6,7 +6,11 @@ import {
     Input,
     Button,
     Wrap,
-    Image
+    Stack,
+    Image,
+    Link,
+    SkeletonCircle,
+    SkeletonText
 }
 from "@chakra-ui/react"
 
@@ -17,23 +21,37 @@ const App = () => {
 
     const [image, updateImage] = useState()
     const [prompt, updatePrompt] = useState()
+    const [loading, updateLoading] = useState()
 
     const generate = async prompt =>{
+        updateLoading(true)
         const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}`)
         updateImage(result.data)
+        updateLoading(false)
     }
 
     return(
         <ChakraProvider>
             <Container>
                 <Heading>Stable Diffusion🎨</Heading>
+                <Text marginBottom={"10px"}>This application was developed using React for the frontend UI and Python for the backend API. 
+                    It uses the Stable Diffusion Deep Learning model trained by Stability AI and Runway ML to generate 
+                    images based on a given prompt. The model can be found via 
+                    github: <Link href={"https://github.com/CompVis/stable-diffusion"}>Stable Diffusion Model</Link></Text>
 
-                <Wrap>
+                <Wrap marginBottom={"10px"}>
                     <Input value={prompt} onChange={e => updatePrompt(e.target.value)} width={"350px"}></Input>
                     <Button onClick={e => generate(prompt)} colorScheme={"yellow"}>Generate</Button>
                 </Wrap>
 
-                {image ? <Image src={`data:image/png;base64,${image}`} /> :null}
+                {loading ? 
+                    <Stack>
+                        <SkeletonCircle />
+                        <SkeletonText />
+                    </Stack> :
+                    
+                image ? 
+                    <Image src={`data:image/png;base64,${image}`} boxShadow="lg" /> : null}
 
             </Container>
         </ChakraProvider>
