@@ -9,8 +9,10 @@ import {
     Stack,
     Image,
     Link,
+    Box,
     SkeletonCircle,
-    SkeletonText
+    SkeletonText,
+    Card
 }
 from "@chakra-ui/react"
 
@@ -32,31 +34,43 @@ const App = () => {
 
     return(
         <ChakraProvider>
-            <Container>
-                <Heading>Stable Diffusion🎨</Heading>
-                <Text marginBottom={"10px"}>This application was developed using React for the frontend UI and Python for the backend API. 
+            <Container centerContent padding={5}>
+                <Heading color="teal.500" marginBottom={5}>Stable Diffusion 🎨</Heading>
+                <Text fontSize="lg" color="gray.600" textAlign="center" marginBottom={5}>
+                    This application was developed using React for the frontend UI and Python for the backend API. 
                     It uses the Stable Diffusion Deep Learning model trained by Stability AI and Runway ML to generate 
                     images based on a given prompt. The model can be found via 
                     github: <Link href={"https://github.com/CompVis/stable-diffusion"}>Stable Diffusion Model</Link></Text>
 
-                <Wrap marginBottom={"10px"}>
-                    <Input value={prompt} onChange={e => updatePrompt(e.target.value)} width={"350px"}></Input>
-                    <Button onClick={e => generate(prompt)} colorScheme={"yellow"}>Generate</Button>
-                </Wrap>
+                <Card padding={6} boxShadow="md" borderRadius="md" marginBottom={5} bg="gray.50">
+                    <Wrap align="center">
+                        <Input
+                            placeholder="Enter your prompt here..."
+                            value={prompt}
+                            onChange={e => updatePrompt(e.target.value)}
+                            width={"300px"}
+                        />
+                        <Button onClick={e => generate(prompt)} colorScheme="teal" size="md">
+                            Generate
+                        </Button>
+                    </Wrap>
+                </Card>
 
-                {loading ? 
-                    <Stack>
-                        <SkeletonCircle />
-                        <SkeletonText />
-                    </Stack> :
-                    
-                image ? 
-                    <Image src={`data:image/png;base64,${image}`} boxShadow="lg" /> : null}
-
+                {loading ? (
+                    <Stack spacing={3} align="center" marginY={5}>
+                        <SkeletonCircle size="16" />
+                        <SkeletonText noOfLines={4} spacing="4" width="300px" />
+                    </Stack>
+                ) : (
+                    image && (
+                        <Box boxShadow="lg" borderRadius="md" overflow="hidden" marginTop={5}>
+                            <Image src={`data:image/png;base64,${image}`} alt="Generated Art" />
+                        </Box>
+                    )
+                )}
             </Container>
         </ChakraProvider>
     );
-
 };
 
 export default App
