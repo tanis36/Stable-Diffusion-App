@@ -5,7 +5,8 @@ import {
     Text,
     Input,
     Button,
-    Wrap
+    Wrap,
+    Image
 }
 from "@chakra-ui/react"
 
@@ -31,6 +32,9 @@ const App = () => {
                     <Input value={prompt} onChange={e => updatePrompt(e.target.value)} width={"350px"}></Input>
                     <Button onClick={e => generate(prompt)} colorScheme={"yellow"}>Generate</Button>
                 </Wrap>
+
+                {image ? <Image src={`data:image/png;base64,${image}`} /> :null}
+
             </Container>
         </ChakraProvider>
     );
