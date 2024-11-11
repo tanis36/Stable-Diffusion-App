@@ -1,1 +1,0 @@
-This application was developed using React for the frontend UI and Python for the backend API. It uses the Stable Diffusion Deep Learning model trained by Stability AI and Runway ML to generate images based on a given prompt. The model can be found via github: https://github.com/CompVis/stable-diffusion
