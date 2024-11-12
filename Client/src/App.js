@@ -1,3 +1,4 @@
+// Chakra UI dependencies
 import {
     ChakraProvider,
     Heading,
@@ -16,22 +17,32 @@ import {
 }
 from "@chakra-ui/react"
 
+// Allows API calls
 import axios from "axios"
+// State management
 import {useState} from "react"
 
+// Main app
 const App = () => {
 
-    const [image, updateImage] = useState()
-    const [prompt, updatePrompt] = useState()
-    const [loading, updateLoading] = useState()
+    // Define state variables
+    const [image, updateImage] = useState() // Store generated image
+    const [prompt, updatePrompt] = useState() // Store user's prompt
+    const [loading, updateLoading] = useState() // Display loading state while image is generating
 
+    // Function to call the backend API and generate an image based on the prompt provided
     const generate = async prompt =>{
+        // Set loading to true when generating starts
         updateLoading(true)
+        // Make the API request
         const result = await axios.get(`http://127.0.0.1:8000/?prompt=${prompt}`)
+        // Store the result in the image state
         updateImage(result.data)
+        // Set loading to false after image generation completes
         updateLoading(false)
     }
 
+    // Use Chakra UI for a nice looking UI and return the image to the UI
     return(
         <ChakraProvider>
             <Container centerContent padding={5}>
